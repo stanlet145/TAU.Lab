@@ -2,9 +2,9 @@ import model.Book
 import service.CsvParser
 import spock.lang.Specification
 
-class Test extends Specification {
+class CsvParserTest extends Specification {
 
-    def "test"() {
+    def "parseCsvToBookTest"() {
         given:
         def csvParser = Mock(CsvParser)
         def bookCsv = "test, john, 1"
