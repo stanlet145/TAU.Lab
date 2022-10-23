@@ -7,15 +7,14 @@ class CsvParserTest extends Specification {
     def "parseCsvToBookTest"() {
         given:
         def csvParser = new CsvParserImpl()
-        def bookCsv = "test,john,1"
-        def expectedResult = Book.builder()
-                .name("test")
-                .author("john")
-                .price(1)
-                .build()
         when:
         def result = csvParser.parseCsvToBookList(bookCsv)
         then:
-        result.get(0) == expectedResult
+        result.get(index) == expectedResult
+        where:
+        expectedResult              | bookCsv                   | index
+        new Book("test", "john", 1) | "test,john,1"             | 0
+        new Book("abc", "abs", 14)  | "test,john,2\nabc,abs,14" | 1
+        new Book("test", "john", 2) | "test,john,2\nabc,abs,14" | 0
     }
 }
