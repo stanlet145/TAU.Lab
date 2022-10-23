@@ -2,6 +2,8 @@ package service;
 
 import model.Book;
 
+import java.util.List;
+
 public interface CsvParser {
-    Book parseCsvToBook(String bookCsv);
+    List<Book> parseCsvToBookList(String bookCsv);
 }

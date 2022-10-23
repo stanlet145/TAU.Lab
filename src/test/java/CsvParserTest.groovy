@@ -1,21 +1,21 @@
 import model.Book
-import service.CsvParser
+import service.CsvParserImpl
 import spock.lang.Specification
 
 class CsvParserTest extends Specification {
 
     def "parseCsvToBookTest"() {
         given:
-        def csvParser = Mock(CsvParser)
-        def bookCsv = "test, john, 1"
+        def csvParser = new CsvParserImpl()
+        def bookCsv = "test,john,1"
         def expectedResult = Book.builder()
                 .name("test")
                 .author("john")
                 .price(1)
                 .build()
         when:
-        def result = csvParser.parseCsvToBook(bookCsv)
+        def result = csvParser.parseCsvToBookList(bookCsv)
         then:
-        result == expectedResult
+        result.get(0) == expectedResult
     }
 }
