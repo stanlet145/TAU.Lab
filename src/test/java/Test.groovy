@@ -4,7 +4,7 @@ class Test extends Specification {
 
     def "test"() {
         given:
-        def a = 1;
+        def a = 1
         when:
         def result = a == 1
         then:
