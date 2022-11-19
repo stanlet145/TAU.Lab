@@ -23,7 +23,7 @@ public class MailLoginTest {
     }
 
     @Test
-    public void test() throws InterruptedException {
+    public void testMailLogin() throws InterruptedException {
         webDriver.get(url);
         webDriver.findElement(By.xpath("/html/body/div[3]/div/div[2]/div[3]/div/button[2]"))
                 .click();
