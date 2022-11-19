@@ -33,6 +33,6 @@ public class InvestmentFundsSearchTest {
 
     @After
     public void tearDown() {
-        // webDriver.quit();
+        webDriver.quit();
     }
 }
