@@ -1,6 +1,6 @@
-package service;
+package lab2.service;
 
-import model.Book;
+import lab2.model.Book;
 
 import java.util.List;
 

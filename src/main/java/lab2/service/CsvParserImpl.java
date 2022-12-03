@@ -1,7 +1,7 @@
-package service;
+package lab2.service;
 
 import io.vavr.control.Try;
-import model.Book;
+import lab2.model.Book;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 

@@ -1,5 +1,7 @@
-import model.Book
-import service.CsvParserImpl
+package lab2
+
+import lab2.model.Book
+import lab2.service.CsvParserImpl
 import spock.lang.Specification
 
 class CsvParserTest extends Specification {

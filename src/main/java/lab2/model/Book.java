@@ -1,4 +1,4 @@
-package model;
+package lab2.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
