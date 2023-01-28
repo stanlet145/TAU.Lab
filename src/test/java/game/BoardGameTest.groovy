@@ -5,6 +5,8 @@ import tauGame.gameBoard.Game
 import tauGame.gameBoard.GameBoard
 import tauGame.gameBoard.GameField
 
+import java.util.stream.Collectors
+
 class BoardGameTest extends Specification {
 
     def "movePlayerTest"() {
@@ -64,5 +66,17 @@ class BoardGameTest extends Specification {
         2           | 2           | GameField.PLAYER
     }
 
+    def "checkIfStartAndStopArePresentOnOtherSides"() {
+        given:
+        def gameBoard = new GameBoard()
+        when:
+        gameBoard.initializeFields()
+        then:
+        gameBoard.getGameBoard()
+                .stream()
+                .filter(s -> s.contains(GameField.STOP) || s.contains(GameField.START))
+                .collect(Collectors.toList())
+                .size() == 2
+    }
 
 }

@@ -19,13 +19,13 @@ public class GameBoard {
     }
 
     public void initializeGameBoard() {
-        gameBoard = new ArrayList<>();
         initializeFields();
         System.out.println("-----INITIALIZING PLAYER ON START--------");
         initializePlayer();
     }
 
-    private void initializeFields() {
+    public void initializeFields() {
+        gameBoard = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             gameBoard.add(new ArrayList<>());
             for (int j = 0; j < 5; j++) {
