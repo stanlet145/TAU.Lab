@@ -1,11 +1,13 @@
 package tauGame.gameBoard;
 
 import io.vavr.control.Try;
+import lombok.Getter;
 
 import java.util.Scanner;
 
 import static io.vavr.API.println;
 
+@Getter
 public class Game {
     private final GameBoard gameBoard;
     private boolean isGameOver;
