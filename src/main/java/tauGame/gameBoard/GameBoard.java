@@ -15,7 +15,7 @@ public class GameBoard {
     private boolean isStopPresent;
 
     public GameBoard() {
-        initializeGameBoard();
+
     }
 
     public void initializeGameBoard() {

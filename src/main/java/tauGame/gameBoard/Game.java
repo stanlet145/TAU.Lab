@@ -1,5 +1,7 @@
 package tauGame.gameBoard;
 
+import io.vavr.control.Try;
+
 import java.util.Scanner;
 
 import static io.vavr.API.println;
@@ -10,10 +12,10 @@ public class Game {
 
     public Game(GameBoard gameBoard) {
         this.gameBoard = gameBoard;
+    }
 
+    public void movePlayer() {
         Scanner in = new Scanner(System.in);
-
-
         do {
             isGameOver = false;
             System.out.println("WSAD to move PLAYER - *");
@@ -41,76 +43,112 @@ public class Game {
     }
 
     public void movePlayerLeft() {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                if (gameBoard.getGameBoard().get(i).get(j) == GameField.PLAYER && j != 0) {
-                    if (gameBoard.getGameBoard().get(i).get(j - 1) != GameField.OBSTACLE) {
+        var xRowSize = gameBoard.getGameBoard().size();
+        for (int i = 0; i < xRowSize; i++) {
+            var yRowSize = gameBoard.getGameBoard().get(i).size();
+            for (int j = 0; j < yRowSize; j++) {
+                if (isPlayerOnField(i, j)) {
+                    tryToMoveLeft(i, j);
+                    return;
+                }
+            }
+        }
+    }
+
+    private void tryToMoveLeft(int i, int j) {
+        Try.of(() -> gameBoard.getGameBoard().get(i).get(j - 1))
+                .onSuccess(field -> {
+                    if (field != GameField.OBSTACLE) {
                         gameBoard.getGameBoard().get(i).set(j, GameField.EMPTY);
                         detectWin(i, j - 1);
                         gameBoard.getGameBoard().get(i).set(j - 1, GameField.PLAYER);
                     } else {
                         System.out.println("watch out, obstacle");
                     }
+                });
+    }
+
+    public void movePlayerRight() {
+        var xRowSize = gameBoard.getGameBoard().size();
+        for (int i = 0; i < xRowSize; i++) {
+            var yRowSize = gameBoard.getGameBoard().get(i).size();
+            for (int j = 0; j < yRowSize; j++) {
+                if (isPlayerOnField(i, j)) {
+                    tryToMoveRight(i, j);
                     return;
                 }
             }
         }
     }
 
-    public void movePlayerRight() {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                if (gameBoard.getGameBoard().get(i).get(j) == GameField.PLAYER && j < 4) {
-                    if (gameBoard.getGameBoard().get(i).get(j + 1) != GameField.OBSTACLE) {
+    private boolean isPlayerOnField(int i, int j) {
+        return gameBoard.getGameBoard().get(i).get(j) == GameField.PLAYER;
+    }
+
+    private void tryToMoveRight(int i, int j) {
+        Try.of(() -> gameBoard.getGameBoard().get(i).get(j + 1))
+                .onSuccess(field -> {
+                    if (field != GameField.OBSTACLE) {
                         gameBoard.getGameBoard().get(i).set(j, GameField.EMPTY);
                         detectWin(i, j + 1);
                         gameBoard.getGameBoard().get(i).set(j + 1, GameField.PLAYER);
                     } else {
                         System.out.println("watch out, obstacle");
                     }
+                });
+    }
+
+    public void movePlayerUp() {
+        for (int i = 0; i < gameBoard.getGameBoard().size(); i++) {
+            for (int j = 0; j < gameBoard.getGameBoard().get(i).size(); j++) {
+                if (isPlayerOnField(i, j)) {
+                    tryToMovePlayerUp(i, j);
                     return;
                 }
             }
         }
     }
 
-    public void movePlayerUp() {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                if (gameBoard.getGameBoard().get(i).get(j) == GameField.PLAYER && i != 0) {
-                    if (gameBoard.getGameBoard().get(i - 1).get(j) != GameField.OBSTACLE) {
+    private void tryToMovePlayerUp(int i, int j) {
+        Try.of(() -> gameBoard.getGameBoard().get(i - 1).get(j))
+                .onSuccess(field -> {
+                    if (field != GameField.OBSTACLE) {
                         gameBoard.getGameBoard().get(i).set(j, GameField.EMPTY);
                         detectWin(i - 1, j);
                         gameBoard.getGameBoard().get(i - 1).set(j, GameField.PLAYER);
                     } else {
                         System.out.println("watch out, obstacle");
                     }
+                });
+    }
+
+    public void movePlayerDown() {
+        for (int i = 0; i < gameBoard.getGameBoard().size(); i++) {
+            for (int j = 0; j < gameBoard.getGameBoard().get(i).size(); j++) {
+                if (isPlayerOnField(i, j)) {
+                    tryToMovePlayerDown(i, j);
                     return;
                 }
             }
         }
     }
 
-    public void movePlayerDown() {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                if (gameBoard.getGameBoard().get(i).get(j) == GameField.PLAYER && i < 4) {
-                    if (gameBoard.getGameBoard().get(i + 1).get(j) != GameField.OBSTACLE) {
+    private void tryToMovePlayerDown(int i, int j) {
+        Try.of(() -> gameBoard.getGameBoard().get(i + 1).get(j))
+                .onSuccess(field -> {
+                    if (field != GameField.OBSTACLE) {
                         gameBoard.getGameBoard().get(i).set(j, GameField.EMPTY);
                         detectWin(i + 1, j);
                         gameBoard.getGameBoard().get(i + 1).set(j, GameField.PLAYER);
                     } else {
                         System.out.println("watch out, obstacle");
                     }
-                    return;
-                }
-            }
-        }
+                });
     }
 
     private void drawBoard() {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int i = 0; i < gameBoard.getGameBoard().size(); i++) {
+            for (int j = 0; j < gameBoard.getGameBoard().get(i).size(); j++) {
                 System.out.print(gameBoard.getGameBoard().get(i).get(j).getFieldMark() + " ");
             }
             println();
